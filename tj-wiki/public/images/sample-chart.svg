@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" font-family="Helvetica, Arial, sans-serif">
+  <rect width="600" height="320" fill="#ffffff"/>
+  <text x="300" y="34" text-anchor="middle" font-size="16" fill="#202122">A sample figure</text>
+  <line x1="70" y1="270" x2="560" y2="270" stroke="#a2a9b1" stroke-width="1"/>
+  <line x1="70" y1="270" x2="70" y2="60" stroke="#a2a9b1" stroke-width="1"/>
+  <polyline points="70,250 150,220 230,230 310,180 390,150 470,110 550,90"
+            fill="none" stroke="#3366cc" stroke-width="2.5"/>
+  <g fill="#3366cc">
+    <circle cx="70" cy="250" r="4"/><circle cx="150" cy="220" r="4"/>
+    <circle cx="230" cy="230" r="4"/><circle cx="310" cy="180" r="4"/>
+    <circle cx="390" cy="150" r="4"/><circle cx="470" cy="110" r="4"/>
+    <circle cx="550" cy="90" r="4"/>
+  </g>
+  <text x="315" y="300" text-anchor="middle" font-size="12" fill="#54595d">x axis</text>
+  <text x="40" y="170" text-anchor="middle" font-size="12" fill="#54595d" transform="rotate(-90 40 170)">y axis</text>
+</svg>

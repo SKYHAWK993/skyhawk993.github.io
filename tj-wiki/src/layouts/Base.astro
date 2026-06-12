@@ -1,0 +1,42 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'A personal wiki and blog.' } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="sheet">
+      <header class="masthead">
+        <a class="wordmark" href="/">tj<span class="tld">.wiki</span></a>
+        <nav>
+          <a href="/">Articles</a>
+          <a href="/about">About&nbsp;me</a>
+        </nav>
+      </header>
+
+      <main>
+        <slot />
+      </main>
+
+      <footer class="colophon">
+        <span>&copy; {year} Tejas Joshi</span>
+        <span>Written in Markdown · Built with Astro</span>
+      </footer>
+    </div>
+  </body>
+</html>
