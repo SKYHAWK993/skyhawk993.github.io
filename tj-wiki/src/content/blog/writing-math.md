@@ -1,7 +1,7 @@
 ---
 title: "Writing math on this site"
 date: 2026-06-12
-description: "A quick demo of LaTeX support — inline and display math, both rendered with KaTeX."
+description: "A quick demo of LaTeX support: inline and display math, both rendered with KaTeX."
 tags: ["meta", "math"]
 ---
 
@@ -11,7 +11,7 @@ $$
 \hat{\beta} = (X^\top X)^{-1} X^\top y
 $$
 
-Anything KaTeX supports works — aligned equations, matrices, the lot:
+Anything KaTeX supports works: aligned equations, matrices, the lot:
 
 $$
 \begin{aligned}
@@ -22,7 +22,7 @@ $$
 
 ## How to write it
 
-Wrap inline math in single dollar signs (`$ ... $`) and display math in double dollar signs (`$$ ... $$`) — exactly like Overleaf or a Jupyter notebook. No setup, no plugins to think about. Write the markdown file, push, done.
+Wrap inline math in single dollar signs (`$ ... $`) and display math in double dollar signs (`$$ ... $$`), just like in Overleaf or a Jupyter notebook. No setup, no plugins to think about. Write the markdown file, push, done.
 
 Code blocks work too, with syntax highlighting:
 

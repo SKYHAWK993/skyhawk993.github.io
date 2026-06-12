@@ -22,7 +22,7 @@ tags: ["pricing", "ml"]
 Your post starts here. Plain markdown, with $\LaTeX$ if you want it.
 ```
 
-The filename becomes the URL — `my-post.md` is published at `/blog/my-post/`.
+The filename becomes the URL: `my-post.md` is published at `/blog/my-post/`.
 
 ## 2. Add images
 
@@ -36,7 +36,7 @@ Which renders as:
 
 ![A sample figure](/images/sample-chart.svg)
 
-PNG, JPG, SVG, GIF, WebP — all fine. For a caption, use a plain HTML figure:
+PNG, JPG, SVG, GIF, WebP are all fine. For a caption, use a plain HTML figure:
 
 ```html
 <figure>
