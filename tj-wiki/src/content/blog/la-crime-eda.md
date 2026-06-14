@@ -5,7 +5,7 @@ description: "Patterns in 877,000 LAPD incidents: when crimes peak, which neighb
 tags: ["data", "eda", "crime"]
 ---
 
-The LAPD publishes every reported incident since 2020 on the [data.gov open data portal](https://catalog.data.gov/dataset/crime-data-from-2020-to-present). After cleaning and filtering to complete years, the dataset covers **877,327 incidents from January 2020 to December 2023**. This post walks through the main patterns using pandas — charts are interactive, hover over any element for exact values.
+The LAPD publishes every reported incident since 2020 on the [data.gov open data portal](https://catalog.data.gov/dataset/crime-data-from-2020-to-present). After cleaning and filtering to complete years, the dataset covers **877,327 incidents from January 2020 to December 2023**. This post walks through the main patterns using pandas. Charts are interactive: hover over any element for exact values.
 
 ---
 
@@ -27,7 +27,7 @@ The month-by-month view shows the lockdown dip clearly in April-May 2020, a slow
 
 ## When do crimes happen?
 
-The hourly breakdown has one quirk worth flagging: the noon spike (1200) is partly a reporting artefact. When officers don't know the exact time, the LAPD system defaults to 1200. Discounting that, the real peak is the evening window from 17:00 to 20:00. The quietest period is 04:00-05:00.
+The hourly breakdown has one quirk worth flagging: the noon spike (1200) is partly a reporting artefact. When officers do not know the exact time, the LAPD system defaults to 1200. Discounting that, the real peak is the evening window from 17:00 to 20:00. The quietest period is 04:00-05:00.
 
 <div id="chart-hour" style="width:100%;height:360px;"></div>
 
@@ -35,7 +35,7 @@ The hourly breakdown has one quirk worth flagging: the noon spike (1200) is part
 
 ## Most common crime types
 
-Vehicle theft leads by a wide margin — nearly 94,000 incidents over four years, more than battery and identity theft combined. The top 15 types account for roughly 65% of all incidents.
+Vehicle theft leads by a wide margin, with nearly 94,000 incidents over four years -- more than battery and identity theft combined. The top 15 types account for roughly 65% of all incidents.
 
 <div id="chart-crimes" style="width:100%;height:480px;"></div>
 
@@ -43,17 +43,39 @@ Vehicle theft leads by a wide margin — nearly 94,000 incidents over four years
 
 ## Crime by LAPD division
 
-Central, 77th Street, and Pacific are consistently the highest-volume divisions. The spread across all 21 divisions is relatively even — there is no single extreme outlier.
+Central, 77th Street, and Pacific are consistently the highest-volume divisions. The spread across all 21 divisions is relatively even, with no single extreme outlier.
 
 <div id="chart-area" style="width:100%;height:420px;"></div>
 
 ---
 
-## Victim age distribution
+## Crime across the city
+
+Each bubble is one LAPD division, placed at the centroid of reported incidents within it. Bubble size scales with total incident count. The southern and central divisions cluster at the higher end; the Valley divisions (Devonshire, Topanga, West Valley) sit at the lower end.
+
+<div id="chart-map" style="width:100%;height:500px;border-radius:4px;overflow:hidden;"></div>
+
+---
+
+## Victim demographics
+
+### Age distribution
 
 The 30-39 age band is the most targeted, followed closely by 20-29. Incidents involving victims under 10 or over 70 are comparatively rare. Ages of 0 and negative values (data entry errors) were excluded.
 
 <div id="chart-age" style="width:100%;height:360px;"></div>
+
+### Descent
+
+Hispanic/Latino victims account for the largest share at around 30% of incidents with a recorded descent. White and Black victims follow. Records coded as Unknown are excluded here.
+
+<div id="chart-descent" style="width:100%;height:480px;"></div>
+
+### Gender
+
+Among incidents where victim gender was recorded, the split is close to even. Records coded X, H, or N (collectively treated as unknown) are excluded.
+
+<div id="chart-gender" style="width:100%;height:340px;"></div>
 
 ---
 
@@ -96,6 +118,23 @@ The 30-39 age band is the most targeted, followed closely by 20-29. Incidents in
     var yearly = {
       years:  [2020, 2021, 2022, 2023],
       counts: [199847, 209876, 235259, 232345]
+    };
+
+    var areaGeo = {
+      areas:  ["77th Street","Central","Devonshire","Foothill","Harbor","Hollenbeck","Hollywood","Mission","N Hollywood","Newton","Northeast","Olympic","Pacific","Rampart","Southeast","Southwest","Topanga","Van Nuys","West LA","West Valley","Wilshire"],
+      lats:   [33.9777,34.0474,34.2503,34.2489,33.7715,34.0543,34.0993,34.2559,34.1715,34.0093,34.1072,34.0601,33.9843,34.0635,33.9389,34.0201,34.1921,34.1786,34.0516,34.1872,34.0618],
+      lons:   [-118.2972,-118.2506,-118.539,-118.3784,-118.2853,-118.2033,-118.3297,-118.4506,-118.3847,-118.2606,-118.2451,-118.3004,-118.4244,-118.2742,-118.2672,-118.3166,-118.6011,-118.4472,-118.4406,-118.5208,-118.3521],
+      counts: [54848,59262,35768,29108,36024,32685,45955,34868,43766,43689,37659,44170,51178,41120,44184,49062,35796,37050,40266,36827,41802]
+    };
+
+    var descent = {
+      labels: ["Hispanic/Latino","White","Black","Other","Other Asian","Korean","Filipino","Chinese","Japanese","Vietnamese","Am. Indian/Alaskan","Asian Indian","Pacific Islander","Hawaiian","Cambodian","Guamanian","Laotian","Samoan"],
+      counts: [267794,178471,124096,69459,19247,4796,3754,3477,1236,929,839,452,238,175,74,64,59,49]
+    };
+
+    var gender = {
+      labels: ["Male","Female"],
+      counts: [360674,322447]
     };
 
     var hourLabels = hourly.hours.map(function (h) {
@@ -166,6 +205,38 @@ The 30-39 age band is the most targeted, followed closely by 20-29. Incidents in
       plot_bgcolor: bg, paper_bgcolor: bg, font: font, showlegend: false
     }, cfg);
 
+    /* ── map bubble ── */
+    var minC = Math.min.apply(null, areaGeo.counts);
+    var maxC = Math.max.apply(null, areaGeo.counts);
+    var bubbleSizes = areaGeo.counts.map(function (c) {
+      return 14 + 28 * (c - minC) / (maxC - minC);
+    });
+    Plotly.newPlot('chart-map', [{
+      type: 'scattermapbox',
+      lat: areaGeo.lats,
+      lon: areaGeo.lons,
+      mode: 'markers',
+      marker: {
+        size: bubbleSizes,
+        color: areaGeo.counts,
+        colorscale: 'YlOrRd',
+        showscale: true,
+        colorbar: { title: 'Incidents', thickness: 14 }
+      },
+      text: areaGeo.areas.map(function (a, i) {
+        return a + ': ' + areaGeo.counts[i].toLocaleString();
+      }),
+      hoverinfo: 'text'
+    }], {
+      mapbox: {
+        style: 'open-street-map',
+        center: { lat: 34.05, lon: -118.35 },
+        zoom: 9
+      },
+      margin: { t: 0, b: 0, l: 0, r: 0 },
+      font: font
+    }, { responsive: true, displayModeBar: false });
+
     /* ── victim age bar ── */
     Plotly.newPlot('chart-age', [{
       type: 'bar', x: age.bins, y: age.counts,
@@ -175,6 +246,33 @@ The 30-39 age band is the most targeted, followed closely by 20-29. Incidents in
       yaxis: { title: 'Incidents' },
       margin: { t: 24, r: 16, b: 56, l: 70 },
       plot_bgcolor: bg, paper_bgcolor: bg, font: font, showlegend: false
+    }, cfg);
+
+    /* ── victim descent horizontal bar ── */
+    var dReversed = descent.labels.slice().reverse();
+    var dcReversed = descent.counts.slice().reverse();
+    Plotly.newPlot('chart-descent', [{
+      type: 'bar', orientation: 'h', x: dcReversed, y: dReversed,
+      marker: { color: '#c0392b' }, name: 'Incidents'
+    }], {
+      xaxis: { title: 'Incidents' },
+      margin: { t: 24, r: 24, b: 56, l: 140 },
+      plot_bgcolor: bg, paper_bgcolor: bg, font: font, showlegend: false
+    }, cfg);
+
+    /* ── victim gender donut ── */
+    Plotly.newPlot('chart-gender', [{
+      type: 'pie',
+      labels: gender.labels,
+      values: gender.counts,
+      hole: 0.45,
+      marker: { colors: ['#3366cc', '#e05c2a'] },
+      textinfo: 'label+percent',
+      hovertemplate: '%{label}: %{value:,}<extra></extra>'
+    }], {
+      margin: { t: 24, r: 16, b: 24, l: 16 },
+      paper_bgcolor: bg, font: font,
+      legend: { orientation: 'h', y: -0.1 }
     }, cfg);
 
   };
