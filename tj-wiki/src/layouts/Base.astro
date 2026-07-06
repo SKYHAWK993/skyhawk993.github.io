@@ -10,9 +10,7 @@ interface Props {
 const { title, description = 'A personal wiki and blog.' } = Astro.props;
 const year = new Date().getFullYear();
 
-// Sign up free at goatcounter.com, then replace the code below with yours
 const GC_CODE = 'teejay-wiki';
-const gcPath = Astro.url.pathname;
 ---
 
 <!doctype html>
@@ -40,16 +38,16 @@ const gcPath = Astro.url.pathname;
       <footer class="colophon">
         <span>&copy; {year} Tejas Joshi</span>
         <span>Written in Markdown · Built with Astro</span>
-        <span class="visitor-count">
-          <img
-            src={`https://${GC_CODE}.goatcounter.com/counter/${gcPath}.svg`}
-            alt=""
-            class="gc-counter"
-            onerror="this.closest('.visitor-count').style.display='none'"
-          /> views
+        <span class="visitor-count" id="vc-wrap">
+          <img id="gc-counter-img" alt="" class="gc-counter"
+               onerror="document.getElementById('vc-wrap').style.display='none'" /> views
         </span>
       </footer>
     </div>
+    <script is:inline define:vars={{ GC_CODE }}>
+      document.getElementById('gc-counter-img').src =
+        'https://' + GC_CODE + '.goatcounter.com/counter/' + window.location.pathname + '.svg';
+    </script>
     <script
       is:inline
       data-goatcounter={`https://${GC_CODE}.goatcounter.com/count`}
