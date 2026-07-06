@@ -1,0 +1,16 @@
+---
+title: "Tracking the monsoon, live"
+date: 2026-07-06
+description: "A live widget showing season-to-date rainfall across five Indian cities since 1 June, pulled directly from the Open-Meteo forecast API."
+tags: ["data", "weather", "india"]
+---
+
+import RainfallTracker from '../../components/RainfallTracker.astro';
+
+India's southwest monsoon arrives in Kerala around 1 June and works its way north over the following weeks. The numbers below show how much rain has actually fallen in five cities since the season opened, updated every 15 minutes from the [Open-Meteo](https://open-meteo.com/) forecast API -- no key required, no backend.
+
+<RainfallTracker />
+
+Each bar is scaled relative to the highest city total this season, so the longest bar is always the wettest city, not a fixed ceiling. Mumbai's coastal position typically puts it well ahead by mid-season; Delhi's totals climb sharply once the monsoon crosses Rajasthan.
+
+The data comes from Open-Meteo's `precipitation_sum` daily field, which aggregates model output and station observations. It is a forecast product, not a gauge record, so figures for the last day or two may shift slightly as model runs update.
