@@ -10,7 +10,6 @@ interface Props {
 const { title, description = 'A personal wiki and blog.' } = Astro.props;
 const year = new Date().getFullYear();
 
-const GC_CODE = 'teejay-wiki';
 ---
 
 <!doctype html>
@@ -38,19 +37,14 @@ const GC_CODE = 'teejay-wiki';
       <footer class="colophon">
         <span>&copy; {year} Tejas Joshi</span>
         <span>Written in Markdown · Built with Astro</span>
-        <span class="visitor-count" id="vc-wrap">
-          <img id="gc-counter-img" alt="" class="gc-counter"
-               onerror="document.getElementById('vc-wrap').style.display='none'" /> views
+        <span class="visitor-count">
+          <img src="https://hits.sh/skyhawk993.github.io.svg?style=flat&label=visitors&color=555555&labelColor=555555" alt="visitor count" />
         </span>
       </footer>
     </div>
-    <script is:inline define:vars={{ GC_CODE }}>
-      document.getElementById('gc-counter-img').src =
-        'https://' + GC_CODE + '.goatcounter.com/counter/' + window.location.pathname + '.svg';
-    </script>
     <script
       is:inline
-      data-goatcounter={`https://${GC_CODE}.goatcounter.com/count`}
+      data-goatcounter="https://teejay-wiki.goatcounter.com/count"
       async
       src="//gc.zgo.at/count.js"
     ></script>
