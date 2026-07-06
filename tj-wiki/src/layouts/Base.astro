@@ -43,8 +43,9 @@ const gcPath = Astro.url.pathname;
         <span class="visitor-count">
           <img
             src={`https://${GC_CODE}.goatcounter.com/counter/${gcPath}.svg`}
-            alt="page views"
+            alt=""
             class="gc-counter"
+            onerror="this.closest('.visitor-count').style.display='none'"
           /> views
         </span>
       </footer>
