@@ -307,6 +307,17 @@ h3 {
   gap: 8px;
 }
 
+.visitor-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gc-counter {
+  vertical-align: middle;
+  height: 1em;
+}
+
 /* ---- KaTeX display math should scroll, not overflow */
 .katex-display {
   overflow-x: auto;
